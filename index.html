@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<style>
+    body
+    {
+        background-color: white;
+    }
+
+    .titleText
+    {
+        font-size: 50px;
+        text-align: center;
+    }
+
+    .sketchButtonCSS
+    {
+        font-size: 100px;
+        position: relative;
+    }
+
+    .containerStyle
+    {
+        background: black;
+        display: inline-block;
+        border: 5px solid black;
+    }
+
+    .gridStyle
+    {
+        display: grid;
+        grid-gap: 5px;
+    }
+
+    .gridCells
+    {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        font-family: Arial;
+        font-size: 3rem;
+        font-weight: bold;
+        background: #ffffff;
+    }
+
+    .gridCells:hover
+    {
+        background-color: #4287f5;
+    }
+
+    .instructions
+    {
+        font-size: 25px;
+        margin-top: -70px;
+    }
+</style>
+
+
+<html>
+    <head>
+        <title>Etch-A-Sketch</title>
+        <meta charset="UTF-8">
+    </head>
+
+    <body class="titleText">
+        <h1>Etch-A-Sketch</h1>
+        
+        <p class="instructions">mouse <strong>click</strong> to capture color, <strong>wheel down</strong> to revert color</p>
+    </body>
+
+    <button class="sketchButtonCSS" id="sketchButton" onclick="createGrid()">Sketch!</button>
+        
+    <div id="container"></div>
+
+    <!--<script src="sketch.js"></script>-->
+
+    <script>
+        function createGrid()
+        {
+            //get user input for rows and cols values
+            let nRows = prompt("Enter amount of rows: ");
+
+            let nCols = prompt("Enter amount of columns: ");
+
+            //check for integer inputs
+            if (nRows != parseInt(nRows, 10) || nCols != parseInt(nCols, 10))
+            {
+                alert("One or more invalid inputs!");
+                return;
+            }    
+
+            let container = document.getElementById("container");
+            container.className = "containerStyle";
+
+            let grid = document.createElement("div");
+            grid.className = "gridStyle";
+
+            //set grid template with nRows and nCols
+            grid.style.gridTemplateColumns = "repeat(" + nCols + ", 30px)";
+            grid.style.gridTemplateRows = "repeat(" + nRows + ", 30px)";
+
+            container.appendChild(grid);
+
+            for (let i = 0; i < nRows; i++)
+            {
+                let row = document.createElement("tr");
+                row.id = "row" + i;
+
+                row.className = "gridCells";
+
+                //change color of square when clicked
+                row.onclick = function()
+                {
+                    row.style.backgroundColor = "#4287f5";
+                }
+
+                //revert color of square back to white when wheel is scrolled
+                row.onwheel = function()
+                {
+                    row.style.backgroundColor = "white";
+                }
+
+                grid.appendChild(row);
+
+                for (let j = 0; j < nCols; j++)
+                {
+                    let col = document.createElement("td"); 
+                    col.id = "col" + j;
+
+                    col.className = "gridCells";
+
+                    col.onclick = function()
+                    {
+                        col.style.backgroundColor = "#4287f5";
+                    }
+
+                    col.onwheel = function()
+                    {
+                        col.style.backgroundColor = "white";
+                    }
+
+                    grid.appendChild(col);
+                }
+            }
+
+            let sketchButton = document.getElementById("sketchButton");
+            sketchButton.style.display = "none";
+        }
+    </script>
+
+</html>
